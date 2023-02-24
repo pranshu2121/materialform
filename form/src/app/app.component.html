@@ -2,7 +2,9 @@
   class="container w-50 mx-auto d-flex justify-content-center align-items-center"
   style="height: 100vh"
 >
+   
   <div class="main">
+    <h1>Sign Up Form</h1>
     <form [formGroup]="SignUpForm" (ngSubmit)="OnSubmit()">
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
@@ -10,6 +12,7 @@
           <mat-error [hidden]="!p['name'].errors?.['required']">
             name is required*
           </mat-error>
+          <mat-error *ngIf="p['name'].errors?.['pattern']">Name must contain only alphabets</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -30,23 +33,23 @@
         <mat-label>Telephone</mat-label>
         <span matPrefix>+91 &nbsp;</span>
         <input
-          type="number"
+          type="tel"
           matInput
           formControlName="tel"
           placeholder="555-555-1234"
+          (keypress)="onTelephoneKeypress($event)"
         />
         <mat-icon matSuffix>phone</mat-icon>
         <mat-error [hidden]="!p['tel'].errors?.['required']">
           <small class="text-danger"> tel is required*</small>
         </mat-error>
         <mat-error *ngIf="p['tel'].errors?.['max']">
-          <small class="text-danger">max length exceeds</small>
+          <small class="text-danger">phone number length must be 10</small>
+        </mat-error>
+        <mat-error *ngIf="p['tel'].errors?.['min']">
+          <small class="text-danger">phone number length must be 10</small>
         </mat-error>
       </mat-form-field>
-     
-       
-     
-
       <mat-form-field appearance="outline">
         <mat-label>Hobby</mat-label>
         <mat-select name="Hobby" formControlName="hobby">
@@ -78,7 +81,7 @@
       <mat-checkbox class="example-margin" formControlName="checkbox">I accept terms & condition
       </mat-checkbox>
       <mat-error *ngIf="p['checkbox'].invalid && (p['checkbox'].touched || isSubmit )">
-        <small class="text-danger"> checkbox is required*</small>
+        <small class="text-danger"> please check on terms and condition*</small>
       </mat-error></div>
       <div>
       <button mat-raised-button color="primary">Submit</button>
